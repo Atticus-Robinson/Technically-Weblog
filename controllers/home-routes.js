@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const sequelize = require("../config/connection");
 const { Post, User, Comment } = require("../models");
+const withAuth = require("../utils/auth");
 
 // get all posts for homepage
 router.get("/", (req, res) => {
@@ -37,7 +38,7 @@ router.get("/", (req, res) => {
 });
 
 // get single post
-router.get("/post/:id", (req, res) => {
+router.get("/post/:id", withAuth, (req, res) => {
   Post.findOne({
     where: {
       id: req.params.id,
