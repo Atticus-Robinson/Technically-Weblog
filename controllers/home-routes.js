@@ -86,4 +86,8 @@ router.get("/login", (req, res) => {
   res.render("login");
 });
 
+router.get("/logout", (req, res) => {
+  console.log("Logout route run");
+});
+
 module.exports = router;
