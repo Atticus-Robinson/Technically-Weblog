@@ -87,6 +87,11 @@ router.get("/login", (req, res) => {
   res.render("login");
 });
 
+router.get("/signup", (req, res) => {
+  console.log("signup run");
+  res.render("signup");
+});
+
 router.get("/logout", (req, res) => {
   console.log("Logout route run");
 });
