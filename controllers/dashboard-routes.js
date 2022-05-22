@@ -9,7 +9,7 @@ router.get("/", withAuth, (req, res) => {
       // use the ID from the session
       user_id: req.session.user_id,
     },
-    attributes: ["id", "post_url", "title", "created_at"],
+    attributes: ["id", "post_url", "title", "created_at", "content"],
     include: [
       {
         model: Comment,
@@ -29,6 +29,28 @@ router.get("/", withAuth, (req, res) => {
       // serialize data before passing to template
       const posts = dbPostData.map((post) => post.get({ plain: true }));
       res.render("dashboard", { posts, loggedIn: true });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json(err);
+    });
+});
+
+// Get single post to edit or delete
+router.get("/:id", withAuth, (req, res) => {
+  console.log("dashboard edit");
+
+  Post.findOne({
+    where: { id: req.params.id },
+    attributes: ["id", "title"],
+  })
+    .then((data) => {
+      const post = data.get({ plain: true });
+
+      res.render("edit-post", {
+        post,
+        loggedIn: req.session.loggedIn,
+      });
     })
     .catch((err) => {
       console.log(err);
