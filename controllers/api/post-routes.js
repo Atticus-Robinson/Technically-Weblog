@@ -1,10 +1,10 @@
+//Import models and withAuth util
 const router = require("express").Router();
 const { Post, Comment, User } = require("../../models/index");
 const withAuth = require("../../utils/auth");
 
-// get all posts
+// Get all posts
 router.get("/", (req, res) => {
-  console.log("======================");
   Post.findAll({
     attributes: ["id", "post_url", "title", "created_at"],
     include: [
@@ -29,6 +29,7 @@ router.get("/", (req, res) => {
     });
 });
 
+//Get single post
 router.get("/:id", (req, res) => {
   Post.findOne({
     where: {
@@ -63,6 +64,7 @@ router.get("/:id", (req, res) => {
     });
 });
 
+//Create new post
 router.post("/", withAuth, (req, res) => {
   console.log(req.body.post_content);
   if (req.session) {
@@ -80,6 +82,7 @@ router.post("/", withAuth, (req, res) => {
   }
 });
 
+//Update existsing post
 router.put("/:id", withAuth, (req, res) => {
   Post.update(
     {
@@ -105,6 +108,7 @@ router.put("/:id", withAuth, (req, res) => {
     });
 });
 
+//Delete single post
 router.delete("/:id", (req, res) => {
   console.log("id", req.params.id);
   Post.destroy({

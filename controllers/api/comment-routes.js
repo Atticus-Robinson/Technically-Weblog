@@ -1,6 +1,8 @@
+//Inport router and Commment model
 const router = require('express').Router();
 const { Comment } = require('../../models');
 
+//Get all comments 
 router.get('/', (req, res) => {
   Comment.findAll()
     .then(dbCommentData => res.json(dbCommentData))
@@ -10,8 +12,8 @@ router.get('/', (req, res) => {
     });
 });
 
+//Create new comment || Expects text, user id from session, corresponding post id
 router.post('/', (req, res) => {
-  // expects => {comment_text: "This is the comment", user_id: 1, post_id: 2}
   if (req.session) {
     Comment.create({
       comment_text: req.body.comment_text,
@@ -26,6 +28,7 @@ router.post('/', (req, res) => {
   }
 });
 
+//Delete comment, not accessible by client only via Insomnia routes
 router.delete('/:id', (req, res) => {
   if (req.session) {
     Comment.destroy({
