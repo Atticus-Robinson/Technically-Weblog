@@ -1,3 +1,4 @@
+//On event listener run, get form data and send through login route. Login route will interact with session data. On good response load homepage
 async function loginFormHandler(event) {
   event.preventDefault();
 

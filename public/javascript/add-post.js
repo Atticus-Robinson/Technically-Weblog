@@ -1,5 +1,4 @@
-//const { contentType } = require("express/lib/response");
-
+//On event handler run, get form data and route to post-routes to create new post. If response is ok render dashboard
 async function newFormHandler(event) {
   event.preventDefault();
 

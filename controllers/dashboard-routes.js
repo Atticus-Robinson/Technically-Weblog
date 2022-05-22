@@ -2,6 +2,7 @@ const router = require("express").Router();
 const { Post, User, Comment } = require("../models");
 const withAuth = require("../utils/auth");
 
+//Get all posts, include comments and submitting user. Then render dashboard with posts and set logged in to true
 router.get("/", withAuth, (req, res) => {
   Post.findAll({
     where: {
@@ -35,7 +36,7 @@ router.get("/", withAuth, (req, res) => {
     });
 });
 
-// Get single post to edit or delete
+// Get single post to edit or delete. Render edit post page
 router.get("/:id", withAuth, (req, res) => {
   console.log("dashboard edit");
 

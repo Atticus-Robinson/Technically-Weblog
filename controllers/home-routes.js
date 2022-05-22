@@ -1,11 +1,9 @@
 const router = require("express").Router();
-const sequelize = require("../config/connection");
 const { Post, User, Comment } = require("../models");
 const withAuth = require("../utils/auth");
 
-// get all posts for homepage
+// Get all posts for homepage, include comments and submitting user. Render homepage handlebars
 router.get("/", (req, res) => {
-  console.log("======================");
   Post.findAll({
     attributes: ["id", "post_url", "title", "created_at", "content"],
     include: [
@@ -37,7 +35,7 @@ router.get("/", (req, res) => {
     });
 });
 
-// get single post
+// Get single post infomration, render single post handlebars
 router.get("/post/:id", withAuth, (req, res) => {
   Post.findOne({
     where: {
@@ -78,6 +76,7 @@ router.get("/post/:id", withAuth, (req, res) => {
     });
 });
 
+//Login route || If user is logged in via session redirect to home, otherwise render login page
 router.get("/login", (req, res) => {
   if (req.session.loggedIn) {
     res.redirect("/");
@@ -87,11 +86,13 @@ router.get("/login", (req, res) => {
   res.render("login");
 });
 
+//Signup page render
 router.get("/signup", (req, res) => {
   console.log("signup run");
   res.render("signup");
 });
 
+//Logout run
 router.get("/logout", (req, res) => {
   console.log("Logout route run");
 });

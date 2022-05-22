@@ -1,6 +1,7 @@
 const updateBtn = document.getElementById("update-btn");
 const deleteBtn = document.getElementById("delete-btn");
 
+//On event listener run, get form data and send to post-route to update post. Then reload dashboard
 const updatePostHandler = async () => {
   const id = window.location.toString().split("/")[
     window.location.toString().split("/").length - 1
@@ -23,6 +24,7 @@ const updatePostHandler = async () => {
   }
 };
 
+//On event listener run, get data from location and send to post-route to delete item by id
 const deletePostHandler = async () => {
   const id = window.location.toString().split("/")[
     window.location.toString().split("/").length - 1

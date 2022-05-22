@@ -1,3 +1,4 @@
+//On event listener run, get form data. Send through user routes to create new user. On good response load user dashboard
 async function signupFormHandler(event) {
   event.preventDefault();
 
