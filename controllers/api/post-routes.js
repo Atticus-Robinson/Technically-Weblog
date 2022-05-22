@@ -1,17 +1,12 @@
 const router = require("express").Router();
-const sequelize = require("../../config/connection");
-const { Post, User, Comment } = require("../../models");
+const { Post, Comment, User } = require("../../models/index");
+const withAuth = require("../../utils/auth");
 
 // get all posts
 router.get("/", (req, res) => {
   console.log("======================");
   Post.findAll({
-    attributes: [
-      "id",
-      "post_url",
-      "title",
-      "created_at",
-    ],
+    attributes: ["id", "post_url", "title", "created_at"],
     include: [
       {
         model: Comment,
@@ -39,12 +34,7 @@ router.get("/:id", (req, res) => {
     where: {
       id: req.params.id,
     },
-    attributes: [
-      "id",
-      "post_url",
-      "title",
-      "created_at",
-    ],
+    attributes: ["id", "post_url", "title", "created_at"],
     include: [
       {
         model: Comment,
@@ -73,15 +63,16 @@ router.get("/:id", (req, res) => {
     });
 });
 
-router.post("/", (req, res) => {
-  // expects {title: 'Taskmaster goes public!', post_url: 'https://taskmaster.com/press', user_id: 1}
+router.post("/", withAuth, (req, res) => {
+  console.log(req.body.post_content);
   if (req.session) {
     Post.create({
       title: req.body.title,
       post_url: req.body.post_url,
       user_id: req.session.user_id,
+      content: req.body.post_content,
     })
-      .then((dbPostData) => res.json(dbPostData))
+      .then((data) => res.status(200).json(data))
       .catch((err) => {
         console.log(err);
         res.status(500).json(err);
@@ -89,10 +80,11 @@ router.post("/", (req, res) => {
   }
 });
 
-router.put("/:id", (req, res) => {
+router.put("/:id", withAuth, (req, res) => {
   Post.update(
     {
       title: req.body.title,
+      content: req.body.post_text,
     },
     {
       where: {
